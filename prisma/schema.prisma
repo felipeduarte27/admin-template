@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model Roles {
+  id    String     @id @default(cuid())
+  name  String
+  users Users[]
+}
+
+model Users {
+  id            String          @id @default(cuid())
+  email         String          @unique
+  password      String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime?       @updatedAt
+  status        UserStatus      @default(PENDING)
+  roleId        String?
+  role          Roles?          @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_roleId_foreign")
+  person        Persons[]
+}
+
+model Persons {
+  id      String     @id @default(cuid())
+  name    String
+  cpf     String?
+  tel     String?
+  userId  String
+  user    Users?  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "persons_userId_foreign")
+}
+
+model Centers {
+  id      String     @id @default(cuid())
+  name    String
+  stock Stocks[]
+}
+
+model Products {
+  id      String     @id @default(cuid())
+  name    String
+  stock Stocks[]
+  entry Entries[]
+  departure Departuries[]
+}
+
+model Stocks {
+  id        String     @id @default(cuid())
+  centerId  String
+  qtd       Decimal
+  center    Centers?  @relation(fields: [centerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "stock_centerId_foreign")
+  productId String
+  product   Products?  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "stockk_productId_foreign")
+}
+
+model Entries {
+  id        String     @id @default(cuid())
+  transportation String?
+  arrivalDate DateTime?
+  departureDate DateTime?
+  container String?
+  invoice String?
+  damage String?
+  qtd Decimal?
+  createAt DateTime?
+  updateAt DateTime?
+  status EntriesStatus?
+  productId String
+  product   Products?  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "entries_productId_foreign")
+}
+
+model Departuries {
+  id        String     @id @default(cuid())
+  departureDate DateTime?
+  invoice String?
+  client String?
+  value Decimal?
+  total Decimal?
+  qtd Decimal?
+  createAt DateTime?
+  updateAt DateTime?
+  status DeparturiesStatus?
+  productId String
+  product   Products?  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "departuries_productId_foreign")
+}
+
+enum DeparturiesStatus {
+  STARTED
+  FINISHED
+}
+
+enum EntriesStatus {
+  LOCAL
+  TRANSIT
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+}
