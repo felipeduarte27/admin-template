@@ -35,11 +35,7 @@ export const columns: ColumnDef<Users>[] = [
     header: 'Status',
     enableGlobalFilter: true,
     accessorFn: (row) => {
-      if (row.status.toString() === 'ACTIVE') {
-        return 'ATIVO';
-      } else {
-        return 'INATIVO';
-      }
+      return row.status.toString();
     },
   },
   {

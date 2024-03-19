@@ -13,7 +13,7 @@ export const login = async (email: string, password: string) => {
 
   if (
     user &&
-    user.status === 'ACTIVE' &&
+    user.status === 'ATIVO' &&
     (await bcrypt.compare(password, user && user.password))
   ) {
     const person = await prisma.persons.findFirst({
@@ -46,17 +46,18 @@ export async function addUser(formData: any) {
       data: {
         name: formData.name,
         userId: user.id,
+        stateId: formData.stateId,
+        cityId: formData.cityId,
       },
     });
 
-    setTimeout(() => {}, 3000);
     return user;
   });
-  revalidatePath('/admin/*');
+  revalidatePath('/admin/users/*');
 }
 
 export async function editUser(id: string, formData: any) {
-  const { name, email, role } = formData;
+  const { name, email, role, cityId, stateId, status } = formData;
   const person = await prisma.persons.findMany({
     where: {
       userId: id,
@@ -66,6 +67,8 @@ export async function editUser(id: string, formData: any) {
   await prisma.persons.update({
     data: {
       name,
+      cityId,
+      stateId,
     },
     where: {
       id: person[0].id,
@@ -76,6 +79,7 @@ export async function editUser(id: string, formData: any) {
     data: {
       email,
       roleId: role,
+      status,
     },
     where: {
       id,
@@ -115,7 +119,7 @@ export async function deleteUser(id: string) {
       id,
     },
     data: {
-      status: 'INACTIVE',
+      status: 'INATIVO',
     },
   });
   revalidatePath('/admin/users/*');

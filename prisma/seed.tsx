@@ -17,7 +17,7 @@ async function main() {
           email: 'admin@template.com.br',
           password:
             '$2b$08$jHQuTFGxKol.P3B7E0vUMOM7C5gviZEzdhAWlwHL6.m4n.VshAuuq',
-          status: 'ACTIVE',
+          status: 'ATIVO',
           person: {
             create: {
               name: 'Admin',
