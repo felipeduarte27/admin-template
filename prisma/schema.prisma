@@ -35,6 +35,10 @@ model Persons {
   tel     String?
   userId  String
   user    Users?  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "persons_userId_foreign")
+  stateId String?
+  state   States?  @relation(fields: [stateId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "state_stateId_foreign")
+  cityId   String?
+  city   Cities?  @relation(fields: [stateId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "city_cityId_foreign")
 }
 
 model Centers {
@@ -89,6 +93,22 @@ model Departuries {
   status DeparturiesStatus?
   productId String
   product   Products?  @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "departuries_productId_foreign")
+}
+
+model States {
+  id        String     @id @default(cuid())
+  name      String
+  acronym   String
+  cities    Cities[]
+  person    Persons[]
+}
+
+model Cities {
+  id        String     @id @default(cuid())
+  name      String
+  stateId   String
+  state     States?  @relation(fields: [stateId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "state_stateId_foreign")
+  person    Persons[]
 }
 
 enum DeparturiesStatus {
