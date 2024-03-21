@@ -43,7 +43,7 @@ export const columns: ColumnDef<Users>[] = [
     header: 'Tipo',
     enableGlobalFilter: true,
     accessorFn: (row) => {
-      return row.role.name;
+      return row.role;
     },
   },
   {

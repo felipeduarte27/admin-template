@@ -15,21 +15,26 @@ import { editUser } from '@/actions/user-action';
 import { useState } from 'react';
 import { getAllCities } from '@/actions/cities';
 
-const createSchema = z.object({
-  name: z.string().min(1, { message: 'Nome: campo obrigatório !' }),
-  email: z
-    .string()
-    .min(1, { message: 'E-mail: campo obrigatório !' })
-    .email('E-mail: formato inválido'),
-  password: z.string().min(6, { message: 'Senha: campo obrigatório !' }),
-  confirm_password: z
-    .string()
-    .min(6, { message: 'Senha: campo obrigatório !' }),
-  role: z.string().optional(),
-  stateId: z.string().min(1, { message: 'Estado: campo obrigatório !' }),
-  cityId: z.string().min(1, { message: 'Cidade: campo obrigatório !' }),
-  status: z.string().optional(),
-});
+const createSchema = z
+  .object({
+    name: z.string().min(1, { message: 'Nome: campo obrigatório !' }),
+    email: z
+      .string()
+      .min(1, { message: 'E-mail: campo obrigatório !' })
+      .email('E-mail: formato inválido'),
+    password: z.string().min(6, { message: 'Senha: campo obrigatório !' }),
+    confirm_password: z
+      .string()
+      .min(6, { message: 'Senha: campo obrigatório !' }),
+    role: z.string().optional(),
+    stateId: z.string().min(1, { message: 'Estado: campo obrigatório !' }),
+    cityId: z.string().min(1, { message: 'Cidade: campo obrigatório !' }),
+    status: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: 'As senhas devem ser iguais !',
+    path: ['confirm_password'],
+  });
 
 const updateSchema = z.object({
   name: z.string().min(1, { message: 'Nome: campo obrigatório !' }),
