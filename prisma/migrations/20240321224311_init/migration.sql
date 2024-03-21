@@ -2,18 +2,13 @@
 CREATE TYPE "DeparturiesStatus" AS ENUM ('STARTED', 'FINISHED');
 
 -- CreateEnum
+CREATE TYPE "Roles" AS ENUM ('ADMIN', 'COMUM');
+
+-- CreateEnum
 CREATE TYPE "EntriesStatus" AS ENUM ('LOCAL', 'TRANSIT');
 
 -- CreateEnum
 CREATE TYPE "UserStatus" AS ENUM ('PENDENTE', 'ATIVO', 'INATIVO');
-
--- CreateTable
-CREATE TABLE "Roles" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "Roles_pkey" PRIMARY KEY ("id")
-);
 
 -- CreateTable
 CREATE TABLE "Users" (
@@ -23,7 +18,7 @@ CREATE TABLE "Users" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "status" "UserStatus" NOT NULL DEFAULT 'PENDENTE',
-    "roleId" TEXT,
+    "role" "Roles" NOT NULL DEFAULT 'COMUM',
 
     CONSTRAINT "Users_pkey" PRIMARY KEY ("id")
 );
@@ -125,9 +120,6 @@ CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Persons_cpf_key" ON "Persons"("cpf");
-
--- AddForeignKey
-ALTER TABLE "Users" ADD CONSTRAINT "users_roleId_foreign" FOREIGN KEY ("roleId") REFERENCES "Roles"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "Persons" ADD CONSTRAINT "persons_userId_foreign" FOREIGN KEY ("userId") REFERENCES "Users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

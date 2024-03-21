@@ -15,15 +15,29 @@ import { editUser } from '@/actions/user-action';
 import { useState } from 'react';
 import { getAllCities } from '@/actions/cities';
 
-const schema = z.object({
+const createSchema = z.object({
   name: z.string().min(1, { message: 'Nome: campo obrigatório !' }),
   email: z
     .string()
     .min(1, { message: 'E-mail: campo obrigatório !' })
     .email('E-mail: formato inválido'),
-  password: z.string().optional(),
-  confirm_password: z.string().optional(),
-  role: z.string().min(1, { message: 'Tipo: campo obrigatório !' }),
+  password: z.string().min(6, { message: 'Senha: campo obrigatório !' }),
+  confirm_password: z
+    .string()
+    .min(6, { message: 'Senha: campo obrigatório !' }),
+  role: z.string().optional(),
+  stateId: z.string().min(1, { message: 'Estado: campo obrigatório !' }),
+  cityId: z.string().min(1, { message: 'Cidade: campo obrigatório !' }),
+  status: z.string().optional(),
+});
+
+const updateSchema = z.object({
+  name: z.string().min(1, { message: 'Nome: campo obrigatório !' }),
+  email: z
+    .string()
+    .min(1, { message: 'E-mail: campo obrigatório !' })
+    .email('E-mail: formato inválido'),
+  role: z.string().optional(),
   stateId: z.string().min(1, { message: 'Estado: campo obrigatório !' }),
   cityId: z.string().min(1, { message: 'Cidade: campo obrigatório !' }),
   status: z.string().optional(),
@@ -35,9 +49,10 @@ type Props = {
   states: any;
   cities: any;
   status: any;
+  context: any;
 };
 
-function UserForm({ user, roles, states, cities, status }: Props) {
+function UserForm({ user, roles, states, cities, status, context }: Props) {
   const [citiesList, setCitieslist] = useState(cities);
 
   const {
@@ -45,14 +60,13 @@ function UserForm({ user, roles, states, cities, status }: Props) {
     handleSubmit,
     reset,
     control,
-    setValue,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(user ? updateSchema : createSchema),
     defaultValues: {
       name: user ? user.person[0].name : '',
       email: user ? user.email : '',
-      role: user ? user.roleId : '',
+      role: user ? user.role : '',
       stateId: user ? user.person[0].stateId : '',
       cityId: user ? user.person[0].cityId : '',
       status: user ? user.status : '',
@@ -64,10 +78,8 @@ function UserForm({ user, roles, states, cities, status }: Props) {
     if (!user) {
       addUser({
         ...data,
-        roleId: data.role,
-        status: 'ATIVO',
+        status: context === 'admin' ? 'ATIVO' : 'PENDENTE',
       });
-      setValue('role', '');
       reset();
     } else {
       await editUser(user.id, data);
@@ -75,7 +87,7 @@ function UserForm({ user, roles, states, cities, status }: Props) {
 
     toast({
       title: 'Sucesso !',
-      description: 'Dados cadastrados.',
+      description: 'Operação realizada!',
       variant: 'constructive',
     });
   };
@@ -86,7 +98,7 @@ function UserForm({ user, roles, states, cities, status }: Props) {
   };
 
   return (
-    <Container className='mt-16 w-[500px]'>
+    <Container className='w-[500px]'>
       <div className='mb-4 flex border-b-2 p-2'>
         <Label variant='title' className='mx-auto mb-4'>
           {user ? 'Alteração' : 'Cadastro'} de Usuário
@@ -116,14 +128,18 @@ function UserForm({ user, roles, states, cities, status }: Props) {
             variant='email'
           />
 
-          <Label className=''>Tipo:</Label>
+          {context === 'admin' ? (
+            <>
+              <Label className=''>Tipo:</Label>
 
-          <SelectInput
-            errors={errors}
-            control={control}
-            name='role'
-            items={roles}
-          />
+              <SelectInput
+                errors={errors}
+                control={control}
+                name='role'
+                items={roles}
+              />
+            </>
+          ) : null}
 
           <Label className=''>Estado:</Label>
 

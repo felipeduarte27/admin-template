@@ -35,7 +35,7 @@ export async function addUser(formData: any) {
     const encryptedPassword = await bcrypt.hash(formData.password, 8);
     const user = await tx.users.create({
       data: {
-        roleId: formData.roleId,
+        role: formData.role ? formData.role : 'COMUM',
         email: formData.email,
         password: encryptedPassword,
         status: formData.status,
@@ -78,8 +78,8 @@ export async function editUser(id: string, formData: any) {
   await prisma.users.update({
     data: {
       email,
-      roleId: role,
       status,
+      role,
     },
     where: {
       id,
@@ -89,15 +89,10 @@ export async function editUser(id: string, formData: any) {
   revalidatePath('/admin/users/*');
 }
 
-export async function findAllRoles() {
-  return await prisma.roles.findMany();
-}
-
 export async function findAllusers() {
   return await prisma.users.findMany({
     include: {
       person: true,
-      role: true,
     },
   });
 }

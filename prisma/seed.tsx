@@ -3,26 +3,15 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.roles.create({
+  await prisma.users.create({
     data: {
-      name: 'COMUM',
-    },
-  });
-
-  await prisma.roles.create({
-    data: {
-      name: 'ADMIN',
-      users: {
+      email: 'admin@template.com.br',
+      password: '$2b$08$jHQuTFGxKol.P3B7E0vUMOM7C5gviZEzdhAWlwHL6.m4n.VshAuuq',
+      status: 'ATIVO',
+      role: 'ADMIN',
+      person: {
         create: {
-          email: 'admin@template.com.br',
-          password:
-            '$2b$08$jHQuTFGxKol.P3B7E0vUMOM7C5gviZEzdhAWlwHL6.m4n.VshAuuq',
-          status: 'ATIVO',
-          person: {
-            create: {
-              name: 'Admin',
-            },
-          },
+          name: 'Admin',
         },
       },
     },

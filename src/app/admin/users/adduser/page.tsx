@@ -1,11 +1,11 @@
 import UserForm from '@/components/forms/user-form';
 import PathComponent from '@/components/path-component';
-import { findAllRoles } from '@/actions/user-action';
+import { getAllRoles } from '@/actions/roles';
 import { getAllStates } from '@/actions/states';
 import { getAllStatus } from '@/actions/status';
 
 export default async function AddUser() {
-  const roles = await findAllRoles();
+  const roles = await getAllRoles();
   const states = await getAllStates();
   const status = await getAllStatus();
 
@@ -18,6 +18,7 @@ export default async function AddUser() {
         states={states}
         cities={[]}
         status={status}
+        context='admin'
       />
     </div>
   );
