@@ -25,6 +25,7 @@ export const login = async (email: string, password: string) => {
       id: user.id,
       name: person?.name,
       email: user.email,
+      role: user.role,
     };
   }
   return null;

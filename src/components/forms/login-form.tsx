@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { login } from '@/actions/session';
 
 const schema = z.object({
   email: z
@@ -31,9 +32,10 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: any) => {
-    console.log(data);
+    const res = await login(data);
+
     //reset();
-    router.push('/admin');
+    //router.push('/admin');
   };
 
   return (

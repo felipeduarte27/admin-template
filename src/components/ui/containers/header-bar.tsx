@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Avatar from '@/assets/avatar';
-import Link from 'next/link';
 import Image from 'next/image';
+import { logout } from '@/actions/session';
 
 import {
   DropdownMenu,
@@ -30,10 +30,18 @@ const HeaderBar = () => {
             <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Meu Perfil</DropdownMenuItem>
-            <DropdownMenuItem>Alterar senha</DropdownMenuItem>
-            <Link href='/'>
-              <DropdownMenuItem>Sair</DropdownMenuItem>
-            </Link>
+            <DropdownMenuItem onClick={logout}>Alterar senha</DropdownMenuItem>
+            <form
+              action={logout}
+              className='mb-1 cursor-pointer rounded-sm p-1 hover:bg-slate-100'
+            >
+              <button
+                className='ml-2 mt-1 flex w-full items-center text-sm'
+                type='submit'
+              >
+                Sair
+              </button>
+            </form>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
