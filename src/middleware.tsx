@@ -1,22 +1,27 @@
 import { NextResponse } from 'next/server';
+import { getIronSession } from 'iron-session';
+import { sessionOptions } from './lib/session';
+import { SessionData } from './lib/session';
+
 import type { NextRequest } from 'next/server';
 
-const isLoggedIn: boolean = false;
+export async function middleware(request: NextRequest) {
+  const session = await getIronSession<SessionData>(
+    request,
+    new Response(),
+    sessionOptions
+  );
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-  console.log('sduhfasjdfaklsj');
-
-  if (isLoggedIn) {
-    return NextResponse.next();
+  console.log(session);
+  if (!session.isLoggoedIn) {
+    return NextResponse.json(null, {
+      status: 401,
+    });
   }
 
-  return NextResponse.json(null, {
-    status: 401,
-  });
+  return NextResponse.next();
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
   matcher: '/api/users/:path*',
 };

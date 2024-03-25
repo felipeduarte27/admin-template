@@ -16,14 +16,19 @@ export const getSession = async () => {
   return session;
 };
 
-export const login = async (formData: any) => {
-  const session = await getSession();
+export const login = async (formData: any): Promise<any> => {
+  console.log(formData);
+  return await loginDB(formData.email, formData.senha);
+};
 
-  const user = await loginDB(formData.email, formData.senha);
-
+export const loginWeb = async (formData: any) => {
+  const user = await login(formData);
+  console.log('chegou aqui');
   if (!user) {
     return { error: 'Credencias Inválidas !' };
   }
+
+  const session = await getSession();
 
   session.id = user.id;
   session.email = user.email;
@@ -34,6 +39,26 @@ export const login = async (formData: any) => {
   await session.save();
 
   redirect('/admin');
+};
+
+export const loginApi = async (formData: any) => {
+  const user = await login(formData);
+
+  if (!user) {
+    return null;
+  }
+
+  const session = await getSession();
+
+  session.id = user.id;
+  session.email = user.email;
+  session.name = user.name;
+  session.role = user.role;
+  session.isLoggoedIn = true;
+
+  await session.save();
+
+  return session;
 };
 
 export const logout = async () => {
