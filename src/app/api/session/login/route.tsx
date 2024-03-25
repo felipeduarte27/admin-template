@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   if (!session.isLoggoedIn) {
     return NextResponse.json(
       {
-        msg: 'Usuário não autorizado!',
+        msg: 'Credenciais inválidas !',
       },
       { status: 401 }
     );

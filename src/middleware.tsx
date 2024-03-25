@@ -12,7 +12,6 @@ export async function middleware(request: NextRequest) {
     sessionOptions
   );
 
-  console.log(session);
   if (!session.isLoggoedIn) {
     return NextResponse.json(null, {
       status: 401,

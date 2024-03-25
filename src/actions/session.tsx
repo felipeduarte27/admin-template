@@ -17,7 +17,6 @@ export const getSession = async () => {
 };
 
 export const login = async (formData: any): Promise<any> => {
-  console.log(formData);
   return await loginDB(formData.email, formData.senha);
 };
 
