@@ -14,6 +14,7 @@ import { useToast } from '../ui/use-toast';
 import { editUser } from '@/actions/users';
 import { useState } from 'react';
 import { getAllCities } from '@/actions/cities';
+import { FormHeader } from '../ui/containers/form-header';
 
 const createSchema = z
   .object({
@@ -104,11 +105,7 @@ function UserForm({ user, roles, states, cities, status, context }: Props) {
 
   return (
     <Container className='w-[500px]'>
-      <div className='mb-4 flex border-b-2 p-2'>
-        <Label variant='title' className='mx-auto mb-4'>
-          {user ? 'Alteração' : 'Cadastro'} de Usuário
-        </Label>
-      </div>
+      <FormHeader title={`${user ? 'Alteração' : 'Cadastro'} de Usuário`} />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Label variant='subtitle'>Dados Pessoais</Label>

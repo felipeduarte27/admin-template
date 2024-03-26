@@ -8,6 +8,7 @@ import { GridContainer } from '../ui/containers/grid-container';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { FormHeader } from '../ui/containers/form-header';
 
 const schema = z.object({
   email: z
@@ -32,11 +33,7 @@ export default function ForgotPasswordForm() {
   };
   return (
     <Container className='w-[400px]'>
-      <div className='mb-8 flex border-b-2 p-2'>
-        <Label variant='title' className='mx-auto mb-4'>
-          Esqueceu a senha?
-        </Label>
-      </div>
+      <FormHeader title='Esqueceu a senha?' />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <GridContainer className='mb-8'>
