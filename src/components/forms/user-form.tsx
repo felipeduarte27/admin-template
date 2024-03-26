@@ -8,10 +8,10 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { SelectInput } from '../ui/select/select';
-import { addUser } from '@/actions/user-action';
+import { addUser } from '@/actions/users';
 import { SubmitButton } from '../ui/button/submit-button';
 import { useToast } from '../ui/use-toast';
-import { editUser } from '@/actions/user-action';
+import { editUser } from '@/actions/users';
 import { useState } from 'react';
 import { getAllCities } from '@/actions/cities';
 

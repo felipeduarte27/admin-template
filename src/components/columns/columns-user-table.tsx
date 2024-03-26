@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import EditIcon from '@/assets/icons/edit-icon';
 import { Alert } from '../ui/alert';
 import { useRouter } from 'next/navigation';
-import { deleteUser } from '@/actions/user-action';
+import { deleteUser } from '@/actions/users';
 
 export type Users = {
   id: string;

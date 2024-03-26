@@ -3,8 +3,13 @@
 import { sessionOptions, SessionData, defaultSession } from '@/lib/session';
 import { getIronSession } from 'iron-session';
 import { cookies } from 'next/headers';
-import { login as loginDB } from './user-action';
+import { login as confirmCredentials } from './users';
 import { redirect } from 'next/navigation';
+
+type Login = {
+  email: string;
+  password: string;
+};
 
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
@@ -16,32 +21,8 @@ export const getSession = async () => {
   return session;
 };
 
-export const login = async (formData: any): Promise<any> => {
-  return await loginDB(formData.email, formData.senha);
-};
-
-export const loginWeb = async (formData: any) => {
-  const user = await login(formData);
-  console.log('chegou aqui');
-  if (!user) {
-    return { error: 'Credencias Inválidas !' };
-  }
-
-  const session = await getSession();
-
-  session.id = user.id;
-  session.email = user.email;
-  session.name = user.name;
-  session.role = user.role;
-  session.isLoggoedIn = true;
-
-  await session.save();
-
-  redirect('/admin');
-};
-
-export const loginApi = async (formData: any) => {
-  const user = await login(formData);
+export const login = async (formData: Login): Promise<SessionData | null> => {
+  const user = await confirmCredentials(formData.email, formData.password);
 
   if (!user) {
     return null;
@@ -56,6 +37,26 @@ export const loginApi = async (formData: any) => {
   session.isLoggoedIn = true;
 
   await session.save();
+
+  return session;
+};
+
+export const loginWeb = async (formData: Login) => {
+  const session = await login(formData);
+
+  if (!session) {
+    return { error: 'Credenciais inválidas !' };
+  }
+
+  redirect('/admin');
+};
+
+export const loginApi = async (formData: Login) => {
+  const session = await login(formData);
+
+  if (!session) {
+    return null;
+  }
 
   return session;
 };

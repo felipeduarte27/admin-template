@@ -17,7 +17,7 @@ const schema = z.object({
     .string()
     .min(1, { message: 'E-mail: campo obrigatório !' })
     .email('E-mail: formato inválido'),
-  senha: z.string().min(6, { message: 'Senha: campo obrigatório !' }),
+  password: z.string().min(6, { message: 'Senha: campo obrigatório !' }),
 });
 
 export default function LoginForm() {
@@ -41,12 +41,6 @@ export default function LoginForm() {
         <div className='mx-auto'>
           <Image src='/logo.jpeg' width='200' height='200' alt='logo' />
         </div>
-        {/**
-           *   <Label variant='title' className='mx-auto mb-4'>
-          Login
-        </Label>
-           * 
-           */}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -65,7 +59,7 @@ export default function LoginForm() {
 
           <Input
             register={register}
-            name='senha'
+            name='password'
             errors={errors}
             placeholder='Senha'
             variant='password'
