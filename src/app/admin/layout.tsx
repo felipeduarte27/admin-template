@@ -15,7 +15,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className='h-screen'>
+    <div className='h-screen w-full border'>
       <HeaderBar />
       <div className='flex w-full flex-row'>
         <SideBar />

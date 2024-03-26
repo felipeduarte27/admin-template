@@ -1,24 +1,15 @@
 import ForgotPasswordForm from '@/components/forms/forgot-password-form';
-import Link from 'next/link';
+import PublicFooterForm from '@/components/ui/containers/public-footer-form';
+import { ComponentContainer } from '@/components/ui/containers/component-container';
+import { MainContainer } from '@/components/ui/containers/main-container';
 
 export default function ForgotPassword() {
   return (
-    <main className='flex h-screen min-h-screen w-full items-center'>
-      <div className='mx-auto flex flex-col rounded-xl bg-white p-4'>
+    <MainContainer>
+      <ComponentContainer>
         <ForgotPasswordForm />
-        <div className='mt-4 flex justify-between'>
-          <Link
-            href='/'
-            className='font-semibold text-gray-400 hover:underline'
-          >
-            Login
-          </Link>
-          <Link
-            href='/signup/'
-            className='font-semibold text-gray-400 hover:underline'
-          ></Link>
-        </div>
-      </div>
-    </main>
+        <PublicFooterForm routes={[{ path: '/', name: 'Login' }]} />
+      </ComponentContainer>
+    </MainContainer>
   );
 }

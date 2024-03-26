@@ -11,7 +11,7 @@ const Container = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
-        `mx-auto flex flex-col rounded-sm border border-gray-300 p-4`,
+        `mx-auto flex flex-col rounded-sm border border-gray-300 bg-white p-4`,
         className
       )}
     >

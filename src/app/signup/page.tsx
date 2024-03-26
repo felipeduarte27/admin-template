@@ -1,16 +1,21 @@
 import UserForm from '@/components/forms/user-form';
-import Link from 'next/link';
+import PublicFooterForm from '@/components/ui/containers/public-footer-form';
+
 import { getAllRoles } from '@/actions/roles';
 import { getAllStates } from '@/actions/states';
 import { getAllStatus } from '@/actions/status';
+
+import { ComponentContainer } from '@/components/ui/containers/component-container';
+import { MainContainer } from '@/components/ui/containers/main-container';
 
 export default async function SignUp() {
   const roles = await getAllRoles();
   const states = await getAllStates();
   const status = await getAllStatus();
+
   return (
-    <main className='flex h-screen min-h-screen w-full items-center'>
-      <div className='mx-auto flex flex-col rounded-xl bg-white p-4'>
+    <MainContainer>
+      <ComponentContainer>
         <UserForm
           user={null}
           roles={roles}
@@ -19,21 +24,13 @@ export default async function SignUp() {
           status={status}
           context='login'
         />
-        <div className='mt-4 flex justify-between'>
-          <Link
-            href='/'
-            className='font-semibold text-gray-400 hover:underline'
-          >
-            Login
-          </Link>
-          <Link
-            href='/forgotpassword/'
-            className='font-semibold text-gray-400 hover:underline'
-          >
-            Esqueceu a senha?
-          </Link>
-        </div>
-      </div>
-    </main>
+        <PublicFooterForm
+          routes={[
+            { path: '/', name: 'Login' },
+            { path: '/forgotpassword', name: 'Esqueceu a senha?' },
+          ]}
+        />
+      </ComponentContainer>
+    </MainContainer>
   );
 }
