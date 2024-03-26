@@ -3,6 +3,18 @@
 import { prisma } from '../lib/prisma';
 const bcrypt = require('bcrypt');
 import { revalidatePath } from 'next/cache';
+import { UserStatus, Roles } from '@prisma/client';
+
+type User = {
+  name: string;
+  email: string;
+  password: string;
+  confirm_password?: string;
+  role?: Roles;
+  stateId: string;
+  cityId: string;
+  status: UserStatus;
+};
 
 export const login = async (email: string, password: string) => {
   const user = await prisma.users.findUnique({
@@ -25,12 +37,14 @@ export const login = async (email: string, password: string) => {
       id: user.id,
       name: person?.name,
       email: user.email,
+      role: user.role,
     };
   }
+
   return null;
 };
 
-export async function addUser(formData: any) {
+export async function addUser(formData: User) {
   await prisma.$transaction(async (tx: any) => {
     const encryptedPassword = await bcrypt.hash(formData.password, 8);
     const user = await tx.users.create({
@@ -56,34 +70,37 @@ export async function addUser(formData: any) {
   revalidatePath('/admin/users/*');
 }
 
-export async function editUser(id: string, formData: any) {
+export async function editUser(id: string, formData: User) {
   const { name, email, role, cityId, stateId, status } = formData;
+
   const person = await prisma.persons.findMany({
     where: {
       userId: id,
     },
   });
 
-  await prisma.persons.update({
-    data: {
-      name,
-      cityId,
-      stateId,
-    },
-    where: {
-      id: person[0].id,
-    },
-  });
+  await prisma.$transaction(async (tx: any) => {
+    await tx.persons.update({
+      data: {
+        name,
+        cityId,
+        stateId,
+      },
+      where: {
+        id: person[0].id,
+      },
+    });
 
-  await prisma.users.update({
-    data: {
-      email,
-      status,
-      role,
-    },
-    where: {
-      id,
-    },
+    await tx.users.update({
+      data: {
+        email,
+        status,
+        role,
+      },
+      where: {
+        id,
+      },
+    });
   });
 
   revalidatePath('/admin/users/*');
@@ -117,5 +134,6 @@ export async function deleteUser(id: string) {
       status: 'INATIVO',
     },
   });
+
   revalidatePath('/admin/users/*');
 }

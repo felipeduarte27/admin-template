@@ -10,45 +10,38 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { loginWeb } from '@/actions/session';
 
 const schema = z.object({
   email: z
     .string()
     .min(1, { message: 'E-mail: campo obrigatório !' })
     .email('E-mail: formato inválido'),
-  senha: z.string().min(6, { message: 'Senha: campo obrigatório !' }),
+  password: z.string().min(6, { message: 'Senha: campo obrigatório !' }),
 });
 
 export default function LoginForm() {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
   });
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-    //reset();
-    router.push('/admin');
+    await loginWeb(data);
   };
 
   return (
     <Container className='w-[400px]'>
-      <div className='mb-8 flex flex-col border-b-2 p-2'>
-        <div className='mx-auto'>
-          <Image src='/logo.jpeg' width='200' height='200' alt='logo' />
-        </div>
-        {/**
-           *   <Label variant='title' className='mx-auto mb-4'>
-          Login
-        </Label>
-           * 
-           */}
-      </div>
+      <Image
+        className='mx-auto'
+        src='/logo.jpeg'
+        width='200'
+        height='100'
+        alt='logo'
+      />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <GridContainer className='mb-8'>
@@ -66,7 +59,7 @@ export default function LoginForm() {
 
           <Input
             register={register}
-            name='senha'
+            name='password'
             errors={errors}
             placeholder='Senha'
             variant='password'

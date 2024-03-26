@@ -1,7 +1,7 @@
 import UserForm from '@/components/forms/user-form';
 import PathComponent from '@/components/path-component';
 import { getAllRoles } from '@/actions/roles';
-import { findById } from '@/actions/user-action';
+import { findById } from '@/actions/users';
 import { getAllStates } from '@/actions/states';
 import { getAllCities } from '@/actions/cities';
 import { getAllStatus } from '@/actions/status';
