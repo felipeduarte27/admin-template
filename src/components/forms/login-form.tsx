@@ -8,9 +8,9 @@ import { GridContainer } from '../ui/containers/grid-container';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { loginWeb } from '@/actions/session';
+import { useToast } from '../ui/use-toast';
 
 const schema = z.object({
   email: z
@@ -24,13 +24,22 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
   });
+  const { toast } = useToast();
 
   const onSubmit = async (data: any) => {
-    await loginWeb(data);
+    const isErrorLogin = await loginWeb(data);
+
+    if (isErrorLogin) {
+      toast({
+        title: 'Erro',
+        description: isErrorLogin.error,
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -66,7 +75,12 @@ export default function LoginForm() {
           />
         </GridContainer>
 
-        <Button type='submit' variant='secondary' className='mb-4'>
+        <Button
+          type='submit'
+          isSubmitting={isSubmitting}
+          variant='secondary'
+          className='mb-4'
+        >
           Logar
         </Button>
       </form>
