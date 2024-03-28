@@ -1,14 +1,14 @@
 'use server';
 
-import { Roles } from '@prisma/client';
+import { Roles as AllRoles } from '@prisma/client';
 
-type roles = {
+export type Roles = {
   id: string;
-  name: string;
+  name: string | unknown;
 };
 
-export const getAllRoles = async (): Promise<roles[]> => {
-  return Object.entries(Roles).map(([key, value]) => ({
+export const getAllRoles = async (): Promise<Roles[]> => {
+  return Object.entries(AllRoles).map(([key, value]) => ({
     id: key,
     name: value,
   }));

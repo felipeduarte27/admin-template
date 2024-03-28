@@ -4,7 +4,7 @@ import { findAllusers } from '@/actions/users';
 import PathComponent from '@/components/path-component';
 
 export default async function Users() {
-  const data: any = await findAllusers();
+  const data: Users[] = await findAllusers();
 
   return (
     <div>

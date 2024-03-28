@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '../lib/prisma';
-import { Cities } from '@prisma/client';
+import type { Cities } from '@prisma/client';
 
 export const getAllCities = async (
   stateId: string | null | undefined

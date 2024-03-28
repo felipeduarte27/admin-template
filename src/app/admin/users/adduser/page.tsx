@@ -4,10 +4,14 @@ import { getAllRoles } from '@/actions/roles';
 import { getAllStates } from '@/actions/states';
 import { getAllStatus } from '@/actions/status';
 
+import type { Roles } from '@/actions/roles';
+import type { Status } from '@/actions/status';
+import type { States } from '@prisma/client';
+
 export default async function AddUser() {
-  const roles = await getAllRoles();
-  const states = await getAllStates();
-  const status = await getAllStatus();
+  const roles: Roles[] = await getAllRoles();
+  const states: States[] = await getAllStates();
+  const status: Status[] = await getAllStatus();
 
   return (
     <div>

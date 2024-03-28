@@ -106,7 +106,7 @@ export async function editUser(id: string, formData: User) {
   revalidatePath('/admin/users/*');
 }
 
-export async function findAllusers() {
+export async function findAllusers(): Promise<any[]> {
   return await prisma.users.findMany({
     include: {
       person: true,
@@ -114,7 +114,7 @@ export async function findAllusers() {
   });
 }
 
-export async function findById(id: string) {
+export async function findById(id: string): Promise<any> {
   return await prisma.users.findUnique({
     where: {
       id,

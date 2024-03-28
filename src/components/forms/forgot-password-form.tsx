@@ -22,7 +22,7 @@ export default function ForgotPasswordForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -48,7 +48,12 @@ export default function ForgotPasswordForm() {
           />
         </GridContainer>
 
-        <Button type='submit' variant='secondary' className='mb-4'>
+        <Button
+          type='submit'
+          variant='secondary'
+          className='mb-4'
+          isSubmitting={isSubmitting}
+        >
           Recuperar senha
         </Button>
       </form>

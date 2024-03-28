@@ -1,20 +1,26 @@
 'use client';
 
-import { Container } from '../ui/containers/content-container';
-import { Label } from '../ui/label';
-import { GridContainer } from '../ui/containers/grid-container';
-import { Input } from '../ui/input/index';
-import * as z from 'zod';
+import { useState } from 'react';
+
+import { Container } from '@/components/ui/containers/content-container';
+import { Label } from '@/components/ui/label';
+import { GridContainer } from '@/components/ui/containers/grid-container';
+import { Input } from '@/components/ui/input/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { SelectInput } from '../ui/select/select';
+import { SelectInput } from '@/components/ui/select/select';
 import { addUser } from '@/actions/users';
-import { SubmitButton } from '../ui/button/submit-button';
-import { useToast } from '../ui/use-toast';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import { editUser } from '@/actions/users';
-import { useState } from 'react';
 import { getAllCities } from '@/actions/cities';
-import { FormHeader } from '../ui/containers/form-header';
+import { FormHeader } from '@/components/ui/containers/form-header';
+
+import * as z from 'zod';
+import type { Roles } from '@/actions/roles';
+import type { Status } from '@/actions/status';
+import type { States } from '@prisma/client';
+import type { Cities } from '@prisma/client';
 
 const createSchema = z
   .object({
@@ -49,13 +55,27 @@ const updateSchema = z.object({
   status: z.string().optional(),
 });
 
+type Person = {
+  name: string;
+  stateId: string;
+  cityId: string;
+};
+
+export type User = {
+  id: string;
+  email: string;
+  role: string;
+  status: string;
+  person: Person[];
+};
+
 type Props = {
-  user: any;
-  roles: any;
-  states: any;
-  cities: any;
-  status: any;
-  context: any;
+  user: User | null;
+  roles: Roles[];
+  states: States[];
+  cities: Cities[];
+  status: Status[];
+  context: string;
 };
 
 function UserForm({ user, roles, states, cities, status, context }: Props) {
@@ -66,7 +86,7 @@ function UserForm({ user, roles, states, cities, status, context }: Props) {
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(user ? updateSchema : createSchema),
     defaultValues: {
@@ -201,11 +221,14 @@ function UserForm({ user, roles, states, cities, status, context }: Props) {
           ) : null}
         </GridContainer>
 
-        <SubmitButton
+        <Button
+          type='submit'
           variant='secondary'
           className='mb-4'
-          text={user ? 'Atualizar' : 'Cadastrar'}
-        />
+          isSubmitting={isSubmitting}
+        >
+          {user ? 'Atualizar' : 'Cadastrar'}
+        </Button>
       </form>
     </Container>
   );

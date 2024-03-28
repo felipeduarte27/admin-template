@@ -8,10 +8,14 @@ import { getAllStatus } from '@/actions/status';
 import { ComponentContainer } from '@/components/ui/containers/component-container';
 import { MainContainer } from '@/components/ui/containers/main-container';
 
+import type { Roles } from '@/actions/roles';
+import type { Status } from '@/actions/status';
+import type { States } from '@prisma/client';
+
 export default async function SignUp() {
-  const roles = await getAllRoles();
-  const states = await getAllStates();
-  const status = await getAllStatus();
+  const roles: Roles[] = await getAllRoles();
+  const states: States[] = await getAllStates();
+  const status: Status[] = await getAllStatus();
 
   return (
     <MainContainer>

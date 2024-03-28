@@ -2,12 +2,12 @@
 
 import { UserStatus } from '@prisma/client';
 
-type status = {
+export type Status = {
   id: string;
   name: string;
 };
 
-export const getAllStatus = async (): Promise<status[]> => {
+export const getAllStatus = async (): Promise<Status[]> => {
   return Object.entries(UserStatus).map(([key, value]) => ({
     id: key,
     name: value,
