@@ -9,6 +9,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { FormHeader } from '../ui/containers/form-header';
+import { forgotPassword } from '@/actions/users';
 
 const schema = z.object({
   email: z
@@ -28,7 +29,10 @@ export default function ForgotPasswordForm() {
   });
 
   const onSubmit = async (data: any) => {
-    console.log(data);
+    const { email } = data;
+
+    forgotPassword(email);
+
     reset();
   };
   return (

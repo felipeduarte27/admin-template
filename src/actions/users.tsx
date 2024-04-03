@@ -2,8 +2,10 @@
 
 import { prisma } from '../lib/prisma';
 const bcrypt = require('bcrypt');
+import { getString } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import { UserStatus, Roles } from '@prisma/client';
+import { sendEmail } from './email';
 
 type User = {
   name: string;
@@ -136,4 +138,34 @@ export async function deleteUser(id: string) {
   });
 
   revalidatePath('/admin/users/*');
+}
+
+export async function forgotPassword(email: string) {
+  const user = await prisma.users.findUnique({
+    where: {
+      email,
+    },
+    include: {
+      person: true,
+    },
+  });
+  const newPassword = getString(8);
+  const encryptedPassword = await bcrypt.hash(newPassword, 8);
+
+  await prisma.users.update({
+    where: {
+      id: user?.id,
+    },
+    data: {
+      password: encryptedPassword,
+    },
+  });
+
+  sendEmail(
+    email,
+    'Recueração de Senha',
+    `Olá, ${user?.person[0].name}`,
+    `Você solicitou uma nova senha. Sua nova senha é: ${newPassword}`,
+    'Este e-mail foi gerado automaticamente pelo sistema e não deve ser respondido.'
+  );
 }
