@@ -169,3 +169,16 @@ export async function forgotPassword(email: string) {
     'Este e-mail foi gerado automaticamente pelo sistema e não deve ser respondido.'
   );
 }
+
+export async function changePassword(id: string, newPassword: string) {
+  const encryptedPassword = await bcrypt.hash(newPassword, 8);
+
+  await prisma.users.update({
+    where: {
+      id,
+    },
+    data: {
+      password: encryptedPassword,
+    },
+  });
+}

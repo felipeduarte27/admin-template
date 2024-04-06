@@ -3,6 +3,8 @@ import React from 'react';
 import Avatar from '@/assets/avatar';
 import Image from 'next/image';
 import { logout } from '@/actions/session';
+import { getSession } from '@/actions/session';
+import { SessionData } from '@/lib/session';
 
 import {
   DropdownMenu,
@@ -12,8 +14,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
 
-const HeaderBar = () => {
+const HeaderBar = async () => {
+  const session: SessionData = await getSession();
+
   return (
     <div className='flex h-[100px] w-full flex-row items-center justify-between border bg-white shadow-lg'>
       <div className='flex h-[100px] w-[300px] items-center justify-center overflow-hidden p-1'>
@@ -27,10 +32,23 @@ const HeaderBar = () => {
             </span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <span>Minha Conta</span>
+              <div className='text-sky-800/80'>{session.name}</div>
+              <div className='text-sky-800/80'>{session.email}</div>
+            </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Meu Perfil</DropdownMenuItem>
-            <DropdownMenuItem onClick={logout}>Alterar senha</DropdownMenuItem>
+            <Link href='/admin/users/profile'>
+              <DropdownMenuItem className='cursor-pointer'>
+                Meu Perfil
+              </DropdownMenuItem>
+            </Link>
+            <Link href='/admin/users/changepassword'>
+              <DropdownMenuItem onClick={logout} className='cursor-pointer'>
+                Alterar senha
+              </DropdownMenuItem>
+            </Link>
             <form
               action={logout}
               className='mb-1 cursor-pointer rounded-sm p-1 hover:bg-slate-100'
