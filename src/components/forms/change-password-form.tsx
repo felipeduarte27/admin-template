@@ -3,15 +3,16 @@
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input/index';
-import { Container } from '../ui/containers/content-container';
-import { GridContainer } from '../ui/containers/grid-container';
-import * as z from 'zod';
+import { Container } from '@/components/ui/containers/content-container';
+import { GridContainer } from '@/components/ui/containers/grid-container';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { FormHeader } from '../ui/containers/form-header';
+import { FormHeader } from '@/components/ui/containers/form-header';
 import { ErrorMessage } from '@hookform/error-message';
 import { changePassword } from '@/actions/users';
 import { useToast } from '@/components/ui/use-toast';
+
+import * as z from 'zod';
 
 const schema = z
   .object({

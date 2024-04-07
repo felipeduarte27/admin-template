@@ -149,7 +149,9 @@ export async function forgotPassword(email: string) {
       person: true,
     },
   });
-  const newPassword = getString(8);
+
+  const newPassword = await getString(8);
+
   const encryptedPassword = await bcrypt.hash(newPassword, 8);
 
   await prisma.users.update({
