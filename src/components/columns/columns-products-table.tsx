@@ -1,10 +1,10 @@
 'use client';
 
+import EditIcon from '@/assets/icons/edit-icon';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import EditIcon from '@/assets/icons/edit-icon';
 import { useRouter } from 'next/navigation';
-import { Alert } from '../ui/alert';
+import { Alert } from '@/components/ui/alert';
 import { deleteProduct } from '@/actions/products';
 
 export type Products = {

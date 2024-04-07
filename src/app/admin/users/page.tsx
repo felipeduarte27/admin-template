@@ -4,7 +4,7 @@ import {
   columns,
 } from '@/components/columns/columns-user-table';
 import { findAllusers } from '@/actions/users';
-import PathComponent from '@/components/path-component';
+import PathComponent from '@/components/ui/containers/path-component';
 
 export default async function Users() {
   const data: UserType[] = await findAllusers();

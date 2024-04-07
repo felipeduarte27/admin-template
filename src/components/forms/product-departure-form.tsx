@@ -3,13 +3,13 @@
 
 import { Container } from '@/components/ui/containers/content-container';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { GridContainer } from '@/components/ui/containers/grid-container';
 import { Input } from '@/components/ui/input/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { SelectInput } from '@/components/ui/select/select';
 import { DatePicker } from '@/components/ui/data-picker';
-import { SubmitButton } from '@/components/ui/button/submit-button';
 import { addDeparture } from '@/actions/departure';
 import { useToast } from '@/components/ui/use-toast';
 import { updateDeparture } from '@/actions/departure';
@@ -59,7 +59,7 @@ function AddProductDepartureForm({ departure, products, status }: Props) {
     reset,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -206,11 +206,14 @@ function AddProductDepartureForm({ departure, products, status }: Props) {
           />
         </GridContainer>
 
-        <SubmitButton
+        <Button
+          type='submit'
           variant='secondary'
           className='mb-4'
-          text={departure ? 'Atualizar' : 'Cadastrar'}
-        />
+          isSubmitting={isSubmitting}
+        >
+          {departure ? 'Atualizar' : 'Cadastrar'}
+        </Button>
       </form>
     </Container>
   );

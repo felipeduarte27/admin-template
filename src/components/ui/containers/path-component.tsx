@@ -2,7 +2,7 @@
 
 import BackIcon from '@/assets/icons/back';
 import { useRouter } from 'next/navigation';
-import { Button } from './ui/button';
+import { Button } from '../button';
 
 function PathComponent() {
   const router = useRouter();

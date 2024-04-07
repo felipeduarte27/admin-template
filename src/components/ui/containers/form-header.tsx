@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Label } from '../label';
+import { Label } from '@/components/ui/label';
 
 type Props = {
   title: string;

@@ -1,5 +1,5 @@
 import UserForm from '@/components/forms/user-form';
-import PathComponent from '@/components/path-component';
+import PathComponent from '@/components/ui/containers/path-component';
 
 import { getAllRoles } from '@/actions/roles';
 import { findById } from '@/actions/users';

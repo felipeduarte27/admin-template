@@ -1,8 +1,8 @@
 import { getProductById } from '@/actions/products';
 import { getAllMovimentations } from '@/actions/products';
 import { DataTable } from '@/components/ui/data-table';
-import { columns } from '@/components/columns/comuns-product-movimentations-table';
-import PathComponent from '@/components/path-component';
+import { columns } from '@/components/columns/columns-product-movimentations-table';
+import PathComponent from '@/components/ui/containers/path-component';
 
 export default async function ProductListReport({
   params,

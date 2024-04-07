@@ -1,4 +1,4 @@
-import DashBoardContainer from '@/components/containers/dashboard-container';
+import DashBoardContainer from '@/components/ui/containers/dashboard-container';
 
 export default async function DashBoard() {
   return (

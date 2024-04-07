@@ -1,4 +1,4 @@
-import PathComponent from '@/components/path-component';
+import PathComponent from '@/components/ui/containers/path-component';
 import AddProductForm from '@/components/forms/product-form';
 
 import { getProductById } from '@/actions/products';

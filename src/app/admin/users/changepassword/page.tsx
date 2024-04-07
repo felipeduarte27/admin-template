@@ -1,4 +1,4 @@
-import PathComponent from '@/components/path-component';
+import PathComponent from '@/components/ui/containers/path-component';
 import ChangePasswordForm from '@/components/forms/change-password-form';
 import { getSession } from '@/actions/session';
 import { SessionData } from '@/lib/session';

@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/ui/data-table';
-import PathComponent from '@/components/path-component';
+import PathComponent from '@/components/ui/containers/path-component';
 import { Products, columns } from '@/components/columns/columns-products-table';
 import { getProducts } from '@/actions/products';
 

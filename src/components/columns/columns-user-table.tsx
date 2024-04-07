@@ -1,9 +1,9 @@
 'use client';
 
+import EditIcon from '@/assets/icons/edit-icon';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import EditIcon from '@/assets/icons/edit-icon';
-import { Alert } from '../ui/alert';
+import { Alert } from '@/components/ui/alert';
 import { useRouter } from 'next/navigation';
 import { deleteUser } from '@/actions/users';
 
