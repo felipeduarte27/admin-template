@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { Container } from '../ui/containers/content-container';
-import { Label } from '../ui/label';
-import { GridContainer } from '../ui/containers/grid-container';
-import { Input } from '../ui/input/index';
-import * as z from 'zod';
+import { Container } from '@/components/ui/containers/content-container';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { GridContainer } from '@/components/ui/containers/grid-container';
+import { Input } from '@/components/ui/input/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { SelectInput } from '../ui/select/select';
-import { DatePicker } from '../ui/data-picker';
-import { SubmitButton } from '../ui/button/submit-button';
+import { SelectInput } from '@/components/ui/select/select';
+import { DatePicker } from '@/components/ui/data-picker';
 import { addEntry } from '@/actions/entry';
-import { useToast } from '../ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { updateEntry } from '@/actions/entry';
+
+import * as z from 'zod';
 
 const schema = z.object({
   productId: z
@@ -47,14 +48,10 @@ const schema = z.object({
 type Props = {
   entry: any;
   products: any;
+  status: any;
 };
 
-const status = [
-  { id: 'LOCAL', name: 'No Local' },
-  { id: 'TRANSIT', name: 'Em trânsito' },
-];
-
-function AddProductEntryForm({ entry, products }: Props) {
+function AddProductEntryForm({ entry, products, status }: Props) {
   const { toast } = useToast();
   const {
     register,
@@ -62,7 +59,7 @@ function AddProductEntryForm({ entry, products }: Props) {
     reset,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -103,7 +100,7 @@ function AddProductEntryForm({ entry, products }: Props) {
     <Container className='mt-16 w-[500px]'>
       <div className='mb-4 flex border-b-2 p-2'>
         <Label variant='title' className='mx-auto mb-4'>
-          Entrada no Centro de Distribuição
+          Entrada de Produtos no Estoque
         </Label>
       </div>
 
@@ -186,11 +183,14 @@ function AddProductEntryForm({ entry, products }: Props) {
           />
         </GridContainer>
 
-        <SubmitButton
+        <Button
+          type='submit'
           variant='secondary'
           className='mb-4'
-          text={entry ? 'Atualizar' : 'Cadastrar'}
-        />
+          isSubmitting={isSubmitting}
+        >
+          {entry ? 'Atualizar' : 'Cadastrar'}
+        </Button>
       </form>
     </Container>
   );

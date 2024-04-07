@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { Container } from '../ui/containers/content-container';
-import { Label } from '../ui/label';
-import { GridContainer } from '../ui/containers/grid-container';
-import { Input } from '../ui/input/index';
-import * as z from 'zod';
+import { Container } from '@/components/ui/containers/content-container';
+import { Label } from '@/components/ui/label';
+import { GridContainer } from '@/components/ui/containers/grid-container';
+import { Input } from '@/components/ui/input/index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { SelectInput } from '../ui/select/select';
-import { DatePicker } from '../ui/data-picker';
-import { SubmitButton } from '../ui/button/submit-button';
+import { SelectInput } from '@/components/ui/select/select';
+import { DatePicker } from '@/components/ui/data-picker';
+import { SubmitButton } from '@/components/ui/button/submit-button';
 import { addDeparture } from '@/actions/departure';
-import { useToast } from '../ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { updateDeparture } from '@/actions/departure';
+
+import * as z from 'zod';
 
 const schema = z.object({
   productId: z
@@ -47,14 +48,10 @@ const schema = z.object({
 type Props = {
   departure: any;
   products: any;
+  status: any;
 };
 
-const status = [
-  { id: 'STARTED', name: 'Iniciado' },
-  { id: 'FINISHED', name: 'Finalizado' },
-];
-
-function AddProductDepartureForm({ departure, products }: Props) {
+function AddProductDepartureForm({ departure, products, status }: Props) {
   const { toast } = useToast();
   const {
     register,
@@ -136,7 +133,7 @@ function AddProductDepartureForm({ departure, products }: Props) {
     <Container className='mt-16 w-[500px]'>
       <div className='mb-4 flex border-b-2 p-2'>
         <Label variant='title' className='mx-auto mb-4'>
-          Saída do Centro de Distribuição
+          Saída de Produtos do Estoque
         </Label>
       </div>
 

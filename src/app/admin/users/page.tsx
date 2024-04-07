@@ -1,10 +1,13 @@
 import { DataTable } from '@/components/ui/data-table';
-import { Users, columns } from '@/components/columns/columns-user-table';
+import {
+  Users as UserType,
+  columns,
+} from '@/components/columns/columns-user-table';
 import { findAllusers } from '@/actions/users';
 import PathComponent from '@/components/path-component';
 
 export default async function Users() {
-  const data: Users[] = await findAllusers();
+  const data: UserType[] = await findAllusers();
 
   return (
     <div>

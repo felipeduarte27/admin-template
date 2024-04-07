@@ -2,6 +2,7 @@
 
 import { prisma } from '../lib/prisma';
 import { revalidatePath } from 'next/cache';
+
 import type { Products } from '@prisma/client';
 
 export const getProducts = async (): Promise<Products[]> => {
@@ -36,7 +37,6 @@ export const addProduct = async (formData: any) => {
       stock: {
         create: {
           qtd: 0,
-          centerId: 'clrtuoppk0002ugwc4sg2pv5h',
         },
       },
     },

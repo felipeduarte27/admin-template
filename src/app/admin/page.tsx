@@ -8,7 +8,6 @@ export default async function DashBoard() {
           Mês de {new Date().toLocaleString('default', { month: 'long' })}
         </span>
       </div>
-      <DashBoardContainer />
     </div>
   );
 }

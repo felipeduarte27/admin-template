@@ -1,16 +1,11 @@
 'use client';
 
-//import { usePathname } from 'next/navigation';
-//import HomeIcon from '@/assets/icons/home-icon';
+import BackIcon from '@/assets/icons/back';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
-import BackIcon from '@/assets/icons/back';
 
 function PathComponent() {
-  //const pathname = usePathname();
   const router = useRouter();
-
-  //let novaString = pathname.replace(/\//g, ' > ').replace(/"/g, '');
 
   return (
     <div className='flex flex-row items-center justify-between'>

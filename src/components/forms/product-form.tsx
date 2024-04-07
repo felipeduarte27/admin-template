@@ -1,18 +1,19 @@
 'use client';
 
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input/index';
-import { Container } from '../ui/containers/content-container';
-import { GridContainer } from '../ui/containers/grid-container';
-import * as z from 'zod';
+import { Container } from '@/components/ui/containers/content-container';
+import { GridContainer } from '@/components/ui/containers/grid-container';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { SubmitButton } from '../ui/button/submit-button';
+import { Button } from '@/components/ui/button';
 import { addProduct } from '@/actions/products';
-import type { Products } from '../columns/columns-products-table';
 import { editProduct } from '@/actions/products';
-import { useToast } from '../ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
+
+import type { Products } from '@/components/columns/columns-products-table';
+
+import * as z from 'zod';
 
 const schema = z.object({
   name: z.string({
@@ -30,13 +31,14 @@ export default function AddProductForm({ product }: Props) {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       name: product ? product.name : null,
     },
   });
+
   const { toast } = useToast();
 
   const onSubmit = async (data: any) => {
@@ -73,11 +75,14 @@ export default function AddProductForm({ product }: Props) {
           />
         </GridContainer>
 
-        <SubmitButton
-          text={product ? 'Atualizar' : 'Cadastrar'}
+        <Button
+          type='submit'
           variant='secondary'
           className='mb-4'
-        />
+          isSubmitting={isSubmitting}
+        >
+          {product ? 'Atualizar' : 'Cadastrar'}
+        </Button>
       </form>
     </Container>
   );

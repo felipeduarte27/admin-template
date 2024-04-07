@@ -34,12 +34,6 @@ model Persons {
   city    Cities?   @relation(fields: [cityId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "city_cityId_foreign")
 }
 
-model Centers {
-  id      String    @id @default(cuid())
-  name    String
-  stock Stocks[]
-}
-
 model Products {
   id        String     @id @default(cuid())
   name      String
@@ -50,9 +44,7 @@ model Products {
 
 model Stocks {
   id        String      @id @default(cuid())
-  centerId  String
   qtd       Decimal
-  center    Centers?    @relation(fields: [centerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "stock_centerId_foreign")
   productId String
   product   Products?   @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "stockk_productId_foreign")
 }
@@ -105,8 +97,8 @@ model Cities {
 }
 
 enum DeparturiesStatus {
-  STARTED
-  FINISHED
+  INICIADO
+  FINALIZADO
 }
 
 enum Roles {
@@ -116,7 +108,7 @@ enum Roles {
 
 enum EntriesStatus {
   LOCAL
-  TRANSIT
+  TRANSITO
 }
 
 enum UserStatus {
