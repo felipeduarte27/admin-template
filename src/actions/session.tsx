@@ -23,7 +23,8 @@ export const getSession = async () => {
 
 export const login = async (formData: Login): Promise<SessionData | null> => {
   const user = await confirmCredentials(formData.email, formData.password);
-
+  console.log('-------------------');
+  console.log(user);
   if (!user) {
     return null;
   }
@@ -35,6 +36,7 @@ export const login = async (formData: Login): Promise<SessionData | null> => {
   session.name = user.name;
   session.role = user.role;
   session.isLoggoedIn = true;
+  session.companyId = user.companyId;
 
   await session.save();
 

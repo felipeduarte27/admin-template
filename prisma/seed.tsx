@@ -14,6 +14,13 @@ async function main() {
           name: 'Admin',
         },
       },
+      company: {
+        create: {
+          name: 'Template Company',
+          logo: 'https://imgur.com/a/DBfcXFb',
+          createdAt: new Date(),
+        },
+      },
     },
   });
 

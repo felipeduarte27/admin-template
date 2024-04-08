@@ -19,6 +19,8 @@ model Users {
   status        UserStatus      @default(PENDENTE)
   role          Roles           @default(COMUM)
   person        Persons[]
+  companyId     String
+  company       Companies?    @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "companies_companyId_foreign")
 }
 
 model Persons {
@@ -40,6 +42,8 @@ model Products {
   stock     Stocks[]
   entry     Entries[]
   departure Departuries[]
+  companyId String
+  company   Companies?    @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "companies_companyId_foreign")
 }
 
 model Stocks {
@@ -94,6 +98,15 @@ model Cities {
   stateId   String
   state     States?     @relation(fields: [stateId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "state_stateId_foreign")
   person    Persons[]
+}
+
+model Companies {
+  id        String      @id @default(cuid())
+  name      String
+  logo      String?
+  createdAt DateTime?
+  user      Users[]
+  product   Products[]
 }
 
 enum DeparturiesStatus {
