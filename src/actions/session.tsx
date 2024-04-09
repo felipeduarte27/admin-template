@@ -35,6 +35,8 @@ export const login = async (formData: Login): Promise<SessionData | null> => {
   session.name = user.name;
   session.role = user.role;
   session.isLoggoedIn = true;
+  session.companyId = user.companyId;
+  session.logo = user.logo;
 
   await session.save();
 

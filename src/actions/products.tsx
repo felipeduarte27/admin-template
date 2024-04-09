@@ -4,20 +4,34 @@ import { prisma } from '../lib/prisma';
 import { revalidatePath } from 'next/cache';
 
 import type { Products } from '@prisma/client';
+import { getCompanyId } from './companies';
 
 export const getProducts = async (): Promise<Products[]> => {
   const products = await prisma.stocks.findMany({
+    where: {
+      product: {
+        companyId: await getCompanyId(),
+      },
+    },
     include: { product: true },
     orderBy: [{ product: { name: 'asc' } }],
   });
 
   return products.map((i: any) => {
-    return { id: i.product.id, name: i.product.name, qtd: i.qtd.toString() };
+    return {
+      id: i.product.id,
+      name: i.product.name,
+      qtd: i.qtd.toString(),
+      companyId: i.product.companyId,
+    };
   });
 };
 
 export const getOnlyProducts = async (): Promise<any[]> => {
   const products = await prisma.products.findMany({
+    where: {
+      companyId: await getCompanyId(),
+    },
     orderBy: [
       {
         name: 'asc',
@@ -30,10 +44,12 @@ export const getOnlyProducts = async (): Promise<any[]> => {
 
 export const addProduct = async (formData: any) => {
   const { name } = formData;
+  const companyId = await getCompanyId();
 
   await prisma.products.create({
     data: {
       name: name,
+      companyId,
       stock: {
         create: {
           qtd: 0,

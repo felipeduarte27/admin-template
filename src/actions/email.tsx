@@ -18,6 +18,4 @@ export const sendEmail = async (
     react: EmailTemplate({ header, body, footer }),
     text: '',
   });
-  console.log(data);
-  console.log(error);
 };

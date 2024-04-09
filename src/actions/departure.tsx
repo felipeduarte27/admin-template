@@ -3,6 +3,7 @@
 import { prisma } from '../lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { updateData } from '@/lib/firebase';
+import { getCompanyId } from './companies';
 
 export const addDeparture = async (formData: any) => {
   const {
@@ -120,6 +121,11 @@ export const updateDeparture = async (formData: any, id: string) => {
 
 export const getDeparturies = async () => {
   const departuries = await prisma.departuries.findMany({
+    where: {
+      product: {
+        companyId: await getCompanyId(),
+      },
+    },
     include: {
       product: true,
     },

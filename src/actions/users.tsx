@@ -6,6 +6,8 @@ import { getString } from '@/utils';
 import { revalidatePath } from 'next/cache';
 import { UserStatus, Roles } from '@prisma/client';
 import { sendEmail } from './email';
+import { getCompanyId } from './companies';
+import { getCompanyIdDefault } from './companies';
 
 type User = {
   name: string;
@@ -16,12 +18,16 @@ type User = {
   stateId: string;
   cityId: string;
   status: UserStatus;
+  companyId?: string;
 };
 
 export const login = async (email: string, password: string) => {
   const user = await prisma.users.findUnique({
     where: {
       email,
+    },
+    include: {
+      company: true,
     },
   });
 
@@ -40,6 +46,8 @@ export const login = async (email: string, password: string) => {
       name: person?.name,
       email: user.email,
       role: user.role,
+      companyId: user.companyId,
+      logo: user.company ? user.company.logo : null,
     };
   }
 
@@ -48,6 +56,12 @@ export const login = async (email: string, password: string) => {
 
 export async function addUser(formData: User) {
   await prisma.$transaction(async (tx: any) => {
+    let companyId: any = await getCompanyId();
+
+    if (!companyId) {
+      companyId = await getCompanyIdDefault();
+    }
+
     const encryptedPassword = await bcrypt.hash(formData.password, 8);
     const user = await tx.users.create({
       data: {
@@ -55,6 +69,7 @@ export async function addUser(formData: User) {
         email: formData.email,
         password: encryptedPassword,
         status: formData.status,
+        companyId,
       },
     });
 
@@ -109,7 +124,12 @@ export async function editUser(id: string, formData: User) {
 }
 
 export async function findAllusers(): Promise<any[]> {
+  const companyId = await getCompanyId();
+
   return await prisma.users.findMany({
+    where: {
+      companyId,
+    },
     include: {
       person: true,
     },

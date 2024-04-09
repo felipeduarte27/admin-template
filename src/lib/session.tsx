@@ -7,6 +7,8 @@ export interface SessionData {
   img?: string;
   role?: string;
   isLoggoedIn?: boolean;
+  companyId?: string;
+  logo?: string | null;
 }
 
 export const defaultSession: SessionData = {
