@@ -3,6 +3,7 @@
 import { prisma } from '../lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { updateData } from '@/lib/firebase';
+import { getCompanyId } from './companies';
 
 const getSockValue = async (
   type: string,
@@ -158,6 +159,11 @@ export const updateEntry = async (formData: any, id: string) => {
 
 export const getEntries = async () => {
   const entries = await prisma.entries.findMany({
+    where: {
+      product: {
+        companyId: await getCompanyId(),
+      },
+    },
     include: {
       product: true,
     },

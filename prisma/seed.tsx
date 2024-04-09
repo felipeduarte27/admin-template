@@ -17,13 +17,20 @@ async function main() {
       company: {
         create: {
           name: 'Template Company',
-          logo: 'https://imgur.com/a/DBfcXFb',
+          logo: 'https://i.imgur.com/gnVmaqz.jpg',
           createdAt: new Date(),
         },
       },
     },
   });
 
+  await prisma.companies.create({
+    data: {
+      name: 'nodUp Tecnologia',
+      logo: 'https://i.imgur.com/qjYUQfa.png',
+      createdAt: new Date(),
+    },
+  });
   await prisma.states.create({
     data: {
       name: 'Rio Grande do Norte',

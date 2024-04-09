@@ -26,6 +26,9 @@ export const login = async (email: string, password: string) => {
     where: {
       email,
     },
+    include: {
+      company: true,
+    },
   });
 
   if (
@@ -44,6 +47,7 @@ export const login = async (email: string, password: string) => {
       email: user.email,
       role: user.role,
       companyId: user.companyId,
+      logo: user.company ? user.company.logo : null,
     };
   }
 

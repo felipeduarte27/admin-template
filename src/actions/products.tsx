@@ -8,6 +8,11 @@ import { getCompanyId } from './companies';
 
 export const getProducts = async (): Promise<Products[]> => {
   const products = await prisma.stocks.findMany({
+    where: {
+      product: {
+        companyId: await getCompanyId(),
+      },
+    },
     include: { product: true },
     orderBy: [{ product: { name: 'asc' } }],
   });
@@ -24,6 +29,9 @@ export const getProducts = async (): Promise<Products[]> => {
 
 export const getOnlyProducts = async (): Promise<any[]> => {
   const products = await prisma.products.findMany({
+    where: {
+      companyId: await getCompanyId(),
+    },
     orderBy: [
       {
         name: 'asc',

@@ -18,11 +18,16 @@ import Link from 'next/link';
 
 const HeaderBar = async () => {
   const session: SessionData = await getSession();
-
+  console.log(session);
   return (
     <div className='flex h-[100px] w-full flex-row items-center justify-between border bg-white shadow-lg'>
-      <div className='flex h-[100px] w-[300px] items-center justify-center overflow-hidden p-1'>
-        <Image src='/logo.jpeg' width='200' height='100' alt='logo' />
+      <div className='flex w-[300px] items-center justify-center'>
+        <Image
+          src={session.logo ? session.logo : ''}
+          width={100}
+          height={100}
+          alt='logo'
+        />
       </div>
       <div className='flex w-[300px] items-center justify-center'>
         <DropdownMenu>
