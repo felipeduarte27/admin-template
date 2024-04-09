@@ -18,7 +18,7 @@ import Link from 'next/link';
 
 const HeaderBar = async () => {
   const session: SessionData = await getSession();
-  console.log(session);
+
   return (
     <div className='flex h-[100px] w-full flex-row items-center justify-between border bg-white shadow-lg'>
       <div className='flex w-[300px] items-center justify-center'>
