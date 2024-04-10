@@ -7,7 +7,7 @@ How is a Nextjs 14 project, you have to use node version 20 or superior
 1. Clone project
 
 ```
-git clone [https://github.com/NodUp/admin-template.git](https://github.com/NodUp/admin-template.git)
+git clone https://github.com/NodUp/admin-template.git
 ```
 
 2. Install all dependencies
