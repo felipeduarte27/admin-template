@@ -1,3 +1,16 @@
+## Introduction
+
+A template for a system that contains session control through the iron session library. In addition to user and product cruds.
+
+Main libraries and frameworks
+
+- TypeScript
+- NextJs
+- Tailwind CSS
+- Iron Session
+- Shadcn ui
+- Prism
+  
 ## Important Note
 
 How is a Nextjs 14 project, you have to use node version 20 or superior
