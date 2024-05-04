@@ -3,14 +3,14 @@ import { getFirestore } from 'firebase/firestore';
 import { getDatabase, ref, set, get, update, child } from 'firebase/database';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAP_CvLZB46WKPK2M2sf7zLcv94dsi3feY',
-  authDomain: 'saltcontrol-369a5.firebaseapp.com',
-  databaseURL: 'https://saltcontrol-369a5-default-rtdb.firebaseio.com',
-  projectId: 'saltcontrol-369a5',
-  storageBucket: 'saltcontrol-369a5.appspot.com',
-  messagingSenderId: '842768331921',
-  appId: '1:842768331921:web:9f6960ea94e8a171077b30',
-  measurementId: 'G-WYN5KB8ZYE',
+  apiKey: '',
+  authDomain: '',
+  databaseURL: '',
+  projectId: '',
+  storageBucket: '',
+  messagingSenderId: '',
+  appId: '',
+  measurementId: '',
 };
 
 // Initialize Firebase
